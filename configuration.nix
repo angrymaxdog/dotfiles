@@ -12,7 +12,10 @@
     enable = true;
     efiSupport = true;
     device = "nodev";
+    useOSProber = true;
+    default = "saved";
   };
+
   
   boot.loader.efi.canTouchEfiVariables = true;
   
@@ -25,6 +28,9 @@
     "zswap.max_pool_percent=25"
   ]; 
 
+ # boot.resumeDevice = "/dev/disk/by-uuid/7e09e774-e20e-448f-9a20-c6cbacfbb8e0";
+
+  
   networking.hostName = "tongfang"; # Define your hostname.
 
   
@@ -52,10 +58,13 @@
   
    programs.zsh = {
      enable = true;
+     autosuggestions.enable = true;
+     syntaxHighlighting.enable = true;
+
      ohMyZsh = {
        enable = true;
-       plugins = [ "git" "sudo" ];
-       theme = "robbyrussell";
+       theme = "dst";
+       plugins = [ "git" "sudo"];
      };
    };
 
@@ -94,10 +103,12 @@
 
   mouse = {
     accelProfile = "flat";
+    accelSpeed = "0.9";
   };
 
   touchpad = {
     accelProfile = "flat";
+    accelSpeed = "0.9";
   };
 };
 
@@ -167,38 +178,48 @@
       vesktop
       vulkan-tools
       mesa-demos
+      copyq
       xorg.xset
-      ffmpegthumbnailer
-      xfce. tumbler
-      poppler-utils
-      webp-pixbuf-loader
-      libheif
+      proton-pass
+      flameshot
+      xfce.tumbler
+      file-roller
+      glib
+      udisks2
+      xfce.thunar
+      xfce.thunar-volman
       shared-mime-info
+      ffmpegthumbnailer
+      lact
+      xdg-user-dirs
+      mate.engrampa
     ];
 
-#123pkgs
+##123pkg
+
 services.tailscale.enable = true;
- 
+services.gvfs.enable = true;
+services.udisks2.enable = true;
+services.tumbler.enable = true;
+services.lact.enable = true;
+programs.dconf.enable = true; 
 nix.settings.experimental-features = [
   "nix-command"
   "flakes"
 ];
 
-services.gvfs.enable = true;
-services.udisks2.enable = true;
 services.xserver.videoDrivers = [ "amdgpu" ];
-services.xserver.dpi = 144;
-environment.sessionVariables = {
-  GDK_SCALE = "2";
-  GDK_DPI_SCALE = "1";
-};
+  services.xserver.dpi = 180;
 
 hardware.graphics = {
   enable = true;
   enable32Bit = true;
 };
 
-
+environment.sessionVariables = {
+  GDK_SCALE = "1";
+  GDK_DPI_SCALE = "1";
+};
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
