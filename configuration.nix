@@ -193,8 +193,8 @@
       lact
       xdg-user-dirs
       mate.engrampa
-      qt5ct
-      qt6ct
+      libsForQt5.qt5ct
+      kdePackages.qt6ct
     ];
 
 ##123pkg
