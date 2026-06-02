@@ -167,9 +167,16 @@
       vesktop
       vulkan-tools
       mesa-demos
+      xorg.xset
+      ffmpegthumbnailer
+      xfce. tumbler
+      poppler-utils
+      webp-pixbuf-loader
+      libheif
+      shared-mime-info
     ];
 
-
+#123pkgs
 services.tailscale.enable = true;
  
 nix.settings.experimental-features = [
@@ -177,8 +184,14 @@ nix.settings.experimental-features = [
   "flakes"
 ];
 
+services.gvfs.enable = true;
+services.udisks2.enable = true;
 services.xserver.videoDrivers = [ "amdgpu" ];
-  services.xserver.dpi = 144;
+services.xserver.dpi = 144;
+environment.sessionVariables = {
+  GDK_SCALE = "2";
+  GDK_DPI_SCALE = "1";
+};
 
 hardware.graphics = {
   enable = true;
