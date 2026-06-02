@@ -1,5 +1,4 @@
 
-
 { config, lib, pkgs, ... }:
 
 {
@@ -14,43 +13,43 @@
     efiSupport = true;
     device = "nodev";
   };
-
+  
   boot.loader.efi.canTouchEfiVariables = true;
-
+  
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
+  
   boot.kernelParams = [
     "zswap.enabled=1"
     "zswap.compressor=zstd"
     "zswap.max_pool_percent=25"
-  ];
+  ]; 
 
-  networking.hostName = "t440p"; # Define your hostname.
+  networking.hostName = "tongfang"; # Define your hostname.
 
-
+  
   networking.networkmanager.enable = true;
 
-
+  
   time.timeZone = "Europe/Brussels";
 
 
-
+ 
   i18n.defaultLocale = "en_US.UTF-8";
-
-
+ 
+  
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
   "openssl-1.1.1w"
 ];
-
+ 
 
    users.users.aoiren = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.zsh;
   };
-
+  
    programs.zsh = {
      enable = true;
      ohMyZsh = {
@@ -61,6 +60,7 @@
    };
 
     services.xserver.enable = true;
+    services.xserver.xkb.layout = "gb";
     services.displayManager.sddm.enable = true;
 
     services.xserver.windowManager.awesome = {
@@ -84,11 +84,11 @@
 
     hardware.bluetooth.enable = true;
     services.blueman.enable = true;
-
+    
     programs.steam.enable = true;
 
     services.flatpak.enable = true;
-
+    
     services.libinput = {
   enable = true;
 
@@ -103,11 +103,11 @@
 
     xdg.portal = {
       enable = true;
-
+    
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
       ];
-
+    
       config = {
         common = {
           default = [ "gtk" ];
@@ -126,7 +126,7 @@
   hardware.enableRedistributableFirmware = true;
 
   services.thermald.enable = true;
-
+  
     services.openssh.enable = true;
 
     environment.systemPackages = with pkgs; [
@@ -165,23 +165,26 @@
       gvfs
       jmtpfs
       vesktop
+      vulkan-tools
+      mesa-demos
     ];
 
 
 services.tailscale.enable = true;
-
+ 
 nix.settings.experimental-features = [
   "nix-command"
   "flakes"
 ];
 
-system.activationScripts.restartAlbert = ''
-  if pgrep -u aoiren albert >/dev/null; then
-    pkill -u aoiren albert || true
-    sleep 1
-    sudo -u aoiren DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus albert &
-  fi
-'';
+services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.dpi = 144;
+
+hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+};
+
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
